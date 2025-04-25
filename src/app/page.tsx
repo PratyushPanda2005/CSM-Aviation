@@ -13,8 +13,8 @@ export default function Home() {
           initial={{ x: "-100%" }}
           animate={{ x: "50%" }}
           transition={{
-            duration: 2,
-            delay: 2,
+            duration: 2.4,
+            delay: 1.6,
            
           }}
           className="absolute top-1/2 -translate-y-1/2 w-[800px]"
