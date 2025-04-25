@@ -1,40 +1,18 @@
+'use client'
+import Image from "next/image";
+import Plane from "../../public/assets/videos/plane.jpg"
+import { motion } from "motion/react"
 export default function Home() {
   return (
   <>
-     <header>
-      <div className="header-wrap">
-        <video
-          autoPlay
-          muted
-          loop
-         >
-          <source type="video/mp4" src="/assets/videos/jetcenter.mp4" />
-        </video>
-        <svg viewBox="0 0 160 90">
-          <g className="header-backdrop" mask="url(#header-mask)">
-            <rect id="cover" x="-5%" y="-5%" width="110%" height="110%" />
-          </g>
-          <g className="transparent-text">
-            <text
-              id="heading"
-              className="heading-text"
-              text-anchor="middle"
-              x="50%"
-              y="50%"
-              dy="0.3em">
-              CSM
-            </text>
-          </g>
-          <mask id="header-mask">
-            <use href="#cover" style={{fill:"white"}} />
-
-            <use href="#heading" />
-       
-            <use href="#text-path" style={{fill:"white"}} />
-          </mask>
-        </svg>
-      </div>
-    </header>
+   <header>
+    <motion.div initial={{x: "-100%"}} animate={{x: "300%"}} transition={{duration: 5}} className="w-[40%]">
+    <Image className="object-cover" src={Plane} alt=""/>
+    </motion.div>
+    <motion.div initial={{x: "300%"}} animate={{x: "-100%"}} transition={{duration: 5}} className="w-[40%]">
+    <Image className="object-cover rotate-180" src={Plane} alt=""/>
+    </motion.div>
+   </header>
   </>
   );
 }
