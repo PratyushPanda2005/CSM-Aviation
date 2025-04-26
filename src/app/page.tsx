@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image";
 import Plane from "../../public/assets/videos/plane.png";
-import Pathway from "../../public/assets/videos/Road.jpeg"
+import Pathway2 from "../../public/assets/videos/Road2.jpg"
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -10,13 +10,16 @@ export default function Home() {
       <div className="relative w-full h-full">
         {/* Yellow trail that follows the plane */}
         <div
-        
           className="absolute top-1/2 -translate-y-1/2 h-[400px] w-screen bg-[#101218]   text-5xl lg:text-7xl xl:text-9xl  font-[700]"
         >
-          <div className="w-full h-full flex justify-between flex-col">
-         <Image src={Pathway} className="w-full h-full" alt=""/>
+          <div  className="w-full h-full relative">
+         <Image src={Pathway2} className="w-full h-full relative" alt=""/>
           </div>
-        
+          <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:2.5, delay:3.1, ease: "easeOut"}} className="absolute inset-0 flex items-center justify-center">
+              <h1 className="text-5xl lg:text-7xl xl:text-9xl font-bold text-amber-50 text-center uppercase">
+                CSM
+              </h1>
+            </motion.div>
         </div>
         
         {/* Plane that moves across */}
@@ -38,32 +41,3 @@ export default function Home() {
 }
 
 
-{/*
-   <div className="flex">
-          <div className="bg-yellow-300 h-[12px] w-full"/>
-          </div>
-          <div className="flex justify-evenly">
-          <div className="bg-white h-[24px] w-[240px]"/>
-          <div className="bg-white h-[24px] w-[240px]"/>
-          </div>
-          <div className="flex gap-4">
-          <div className="bg-white h-[12px] w-[120px]"/>
-          <div className="bg-white h-[12px] w-[120px]"/>
-          <div className="bg-white h-[12px] w-[120px]"/>
-          <div className="bg-white h-[12px] w-[120px]"/>
-          <div className="bg-white h-[12px] w-[120px]"/>
-          <div className="bg-white h-[12px] w-[120px]"/>
-          <div className="bg-white h-[12px] w-[120px]"/>
-          <div className="bg-white h-[12px] w-[120px]"/>
-          <div className="bg-white h-[12px] w-[120px]"/>
-          <div className="bg-white h-[12px] w-[120px]"/>
-          <div className="bg-white h-[12px] w-[120px]"/>
-          </div>
-          <div className="flex justify-evenly">
-          <div className="bg-white h-[24px] w-[240px]"/>
-          <div className="bg-white h-[24px] w-[240px]"/>
-          </div>
-          <div className="flex">
-          <div className="bg-yellow-300 h-[12px] w-full"/>
-          </div>
-  */}
