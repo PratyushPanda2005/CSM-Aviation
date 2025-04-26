@@ -22,6 +22,10 @@ export default function Home() {
           <div className="flex">
           <div className="bg-yellow-300 h-[12px] w-full"/>
           </div>
+          <div className="flex justify-evenly">
+          <div className="bg-white h-[24px] w-[240px]"/>
+          <div className="bg-white h-[24px] w-[240px]"/>
+          </div>
           <div className="flex gap-4">
           <div className="bg-white h-[12px] w-[120px]"/>
           <div className="bg-white h-[12px] w-[120px]"/>
@@ -34,6 +38,10 @@ export default function Home() {
           <div className="bg-white h-[12px] w-[120px]"/>
           <div className="bg-white h-[12px] w-[120px]"/>
           <div className="bg-white h-[12px] w-[120px]"/>
+          </div>
+          <div className="flex justify-evenly">
+          <div className="bg-white h-[24px] w-[240px]"/>
+          <div className="bg-white h-[24px] w-[240px]"/>
           </div>
           <div className="flex">
           <div className="bg-yellow-300 h-[12px] w-full"/>
