@@ -11,19 +11,19 @@ export default function Home() {
       <div className="relative w-full h-full">
         {/* Yellow trail that follows the plane */}
         <div
-          className="absolute top-1/2 -translate-y-1/2 h-[400px] w-screen bg-[#101218] "
+          className="absolute top-1/2 -translate-y-1/2 h-[400px] w-screen "
         >
-          <div  className="w-full h-full relative">
+          <motion.div initial={{opacity:1}} animate={{opacity:0}}  transition={{duration: 2, delay:3.2}} className="w-full h-full relative">
          <Image src={Pathway2} className="w-full h-full relative" alt=""/>
-          </div>
-          <div className="absolute inset-0 flex items-center ">
-            <motion.div initial={{x:"-100%"}} animate={{x:"100%"}} transition={{delay:3.1, duration: 3}} className="">
+          </motion.div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <motion.div initial={{scale:0}} animate={{scale: 1.05}} transition={{delay:3.1, duration: 3}} className="">
             <Image className="h-[80%] w-[480px] opacity-[30%]" src={Aviation} alt=""/>
             </motion.div>
             <motion.div initial={{opacity:0}} animate={{opacity:1}}  transition={{duration: 6, delay:5, ease: "easeOut"}} className="absolute inset-0 flex items-center justify-center">
               <div>
-              <h1 className="w-[480px] text-4xl font-[700] text-white">Direct Charter to Public</h1>
-              <p className="w-[400px] text-white">Located in Central California, we are positioned well to depart from all Northern and Southern California airport locations, including Las Vegas and Reno, Nevada. We offer the Luxury Travel Experience, with safety and overall trip experience as our primary focus.</p>
+              <h1 className="w-[480px] text-4xl font-[700] ">Direct Charter to Public</h1>
+              <p className="w-[400px] ">Located in Central California, we are positioned well to depart from all Northern and Southern California airport locations, including Las Vegas and Reno, Nevada. We offer the Luxury Travel Experience, with safety and overall trip experience as our primary focus.</p>
               </div>
             </motion.div>
             </div>
