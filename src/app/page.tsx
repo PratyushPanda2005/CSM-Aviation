@@ -19,7 +19,7 @@ export default function Home() {
   useEffect(() => {
     const unsubscribe = planeX.on("change", (latestX) => {
       setCurrentX(latestX);
-      console.log("Plane X position:", latestX);
+      console.log("Plane X position:", currentX);
       
       // Move left cloud when plane is near (both x and y)
       if (Math.abs(latestX - cloudPositions.left) < 50) {
