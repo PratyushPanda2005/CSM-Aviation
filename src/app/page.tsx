@@ -1,51 +1,120 @@
-'use client'
+"use client";
 import Image from "next/image";
 import Plane from "../../public/assets/videos/plane.png";
-import Pathway2 from "../../public/assets/videos/Road2.jpg"
-import Aviation from "../../public/assets/videos/Aviation.jpeg"
-import { motion } from "framer-motion";
+import Cloud from "../../public/assets/videos/11506812.png";
+import { motion, useMotionValue } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
 
 export default function Home() {
+  const planeX = useMotionValue(0);
+  const [currentX, setCurrentX] = useState(0);
+  const [cloudPositions, setCloudPositions] = useState({ left: 0, right: 0 });
+  const positionsStored = useRef(false);
+  
+  // State for cloud movement (x and y for both clouds)
+  const [leftCloudPos, setLeftCloudPos] = useState({ x: 0, y: 0 });
+  const [rightCloudPos, setRightCloudPos] = useState({ x: 0, y: 0 });
+
+  // Update currentX whenever planeX changes
+  useEffect(() => {
+    const unsubscribe = planeX.on("change", (latestX) => {
+      setCurrentX(latestX);
+      
+      // Move left cloud when plane is near (both x and y)
+      if (Math.abs(latestX - cloudPositions.left) < 50) {
+        setLeftCloudPos({ x: -30, y: -30 }); // Moves left and up
+      }
+      
+      // Move right cloud when plane is near (both x and y)
+      if (Math.abs(latestX - cloudPositions.right) < 50) {
+        setRightCloudPos({ x: 30, y: 30 }); // Moves right and down
+      }
+    });
+    
+    return () => unsubscribe();
+  }, [planeX, cloudPositions]);
+
+  // Store initial cloud positions
+  useEffect(() => {
+    if (!positionsStored.current) {
+      const leftCloud = document.querySelector('.left-cloud');
+      const rightCloud = document.querySelector('.right-cloud');
+      
+      if (leftCloud && rightCloud) {
+        const leftRect = leftCloud.getBoundingClientRect();
+        const rightRect = rightCloud.getBoundingClientRect();
+        
+        setCloudPositions({
+          left: leftRect.x,
+          right: rightRect.x
+        });
+        
+        positionsStored.current = true;
+      }
+    }
+  }, []);
+
   return (
     <div className="overflow-hidden w-screen bg-white h-screen flex items-center">
       <div className="relative w-full h-full">
-        {/* Yellow trail that follows the plane */}
-        <div
-          className="absolute top-1/2 -translate-y-1/2 h-[400px] w-screen "
-        >
-          <motion.div initial={{opacity:1}} animate={{opacity:0}}  transition={{duration: 2, delay:3.2}} className="w-full h-full relative">
-         <Image src={Pathway2} className="w-full h-full relative" alt=""/>
-          </motion.div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div initial={{scale:0}} animate={{scale: 1.05}} transition={{delay:3.1, duration: 3}} className="">
-            <Image className="h-[80%] w-[480px] opacity-[30%]" src={Aviation} alt=""/>
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="relative w-full max-w-7xl h-full flex justify-between">
+            {/* Left Cloud */}
+            <motion.div
+              className="h-full left-cloud flex items-start"
+              animate={{
+                x: leftCloudPos.x,
+                y: leftCloudPos.y
+              }}
+              transition={{ 
+                type: "spring",
+                stiffness: 60,
+                damping: 10
+              }}
+            >
+              <Image
+                src={Cloud}
+                alt=""
+                className="w-[560px] lg:w-[640px] h-[640px]"
+              />
             </motion.div>
-            <motion.div initial={{opacity:0}} animate={{opacity:1}}  transition={{duration: 6, delay:5, ease: "easeOut"}} className="absolute inset-0 flex items-center justify-center">
-              <div>
-              <h1 className="w-[480px] text-4xl font-[700] ">Direct Charter to Public</h1>
-              <p className="w-[400px] ">Located in Central California, we are positioned well to depart from all Northern and Southern California airport locations, including Las Vegas and Reno, Nevada. We offer the Luxury Travel Experience, with safety and overall trip experience as our primary focus.</p>
-              </div>
+            
+            {/* Right Cloud */}
+            <motion.div
+              className="right-cloud h-full flex items-end"
+              animate={{
+                x: rightCloudPos.x,
+                y: rightCloudPos.y
+              }}
+              transition={{ 
+                type: "spring",
+                stiffness: 60,
+                damping: 10
+              }}
+            >
+              <Image
+                src={Cloud}
+                alt=""
+                className="w-[560px] lg:w-[640px] h-[640px] relative z-10"
+              />
             </motion.div>
-            </div>
+          </div>
         </div>
-        
+      
         {/* Plane that moves across */}
         <motion.div
+          style={{ x: planeX }}
           initial={{ x: "-100%" }}
-          animate={{ x: "300%" }}
+          animate={{ x: "100vw" }}
           transition={{
-            duration: 6,
+            duration: 4,
             ease: "linear",
-           
           }}
           className="absolute top-1/2 -translate-y-1/2 w-auto flex gap-10"
         >
-          <h1 className="text-5xl lg:text-7xl xl:text-9xl font-bold text-amber-50 text-center uppercase flex items-center">CSM</h1>
-          <Image src={Plane} alt="Plane" className="w-full h-auto" />
+          <Image src={Plane} alt="Plane" className="w-[400px] h-auto" />
         </motion.div>
       </div>
     </div>
   );
 }
-
-
