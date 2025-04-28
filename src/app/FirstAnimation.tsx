@@ -2,12 +2,10 @@
 import Image from "next/image";
 import Plane from "../../public/assets/videos/plane.png";
 import Cloud from "../../public/assets/videos/11506812.png";
-import Aviation from "../../public/assets/videos/Aviation.jpeg";
 import { motion, useMotionValue } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
-import FirstAnimation from "./FirstAnimation";
 
-export default function Home() {
+export default function FirstAnimation() {
   const planeX = useMotionValue(0);
   const [currentX, setCurrentX] = useState(0);
   const [cloudPositions, setCloudPositions] = useState({ left: 0, right: 0 });
@@ -58,7 +56,6 @@ export default function Home() {
   }, []);
 
   return (
-    <>
     <div className="overflow-hidden w-screen bg-white h-screen flex items-center">
       <div className="relative w-full h-full">
         <div className="w-full h-full flex items-center justify-center">
@@ -81,19 +78,6 @@ export default function Home() {
                 alt=""
                 className="w-[560px] lg:w-[640px] h-[640px]"
               />
-            </motion.div>
-            
-            {/* Center Circle with Text */}
-            <motion.div initial={{x:"-100vw"}} animate={{x:0}} transition={{duration: 3, delay: 0.9}} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-              <div className="w-[480px] h-[480px]  rounded-full  flex items-center justify-center">
-                <div className="relative w-full h-full ">
-                <Image src={Aviation} alt="" className="relative w-full h-full rounded-full opacity-40"/>
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4">
-                <h1 className=" text-center text-4xl font-[700]">Direct Charter to Public</h1>
-                <p className="text-black text-center">Located in Central California, we are positioned well to depart from all Northern and Southern California airport locations, including Las Vegas and Reno, Nevada. We offer the Luxury Travel Experience, with safety and overall trip experience as our primary focus.</p>
-                </div>
-                </div>
-              </div>
             </motion.div>
             
             {/* Right Cloud */}
@@ -133,8 +117,5 @@ export default function Home() {
         </motion.div>
       </div>
     </div>
-<FirstAnimation/>
-
-    </>
   );
 }
