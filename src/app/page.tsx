@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import { useEffect, useState } from "react";
 import FirstAnimation from "./FirstAnimation";
 import Plane from "../../public/assets/videos/plane.png";
 import Aviation from "../../public/assets/videos/Aviation.jpeg";
+import { animate } from "framer-motion";
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState<number>(0);
@@ -12,17 +13,39 @@ export default function Home() {
   
   const planeWidth = 400;
   const cloudWidth = 480;
-  const gap = 30; // 30px gap behind plane
+  const gap = 30; 
   
   
   const stopTriggerPosition = windowWidth / 2 + planeWidth / 2;
   const cloudStopPosition = windowWidth / 2 - cloudWidth / 2;
 
 
-  const cloudX = useTransform(planeX, (latest) => {
+  // const cloudX = useTransform(planeX, (latest) => {
+  //   const followingPosition = latest - cloudWidth - gap;
+  //   return latest < stopTriggerPosition ? followingPosition : cloudStopPosition;
+  // });
+
+  const cloudX = useMotionValue(0);
+
+useEffect(() => {
+  const unsubscribe = planeX.on("change", (latest) => {
     const followingPosition = latest - cloudWidth - gap;
-    return latest < stopTriggerPosition ? followingPosition : cloudStopPosition;
+
+    if (latest < stopTriggerPosition) {
+      cloudX.set(followingPosition);
+    } else {
+      animate(cloudX, cloudStopPosition, {
+        type: "spring", // or "tween" for a more linear feel
+        stiffness: 100,
+        damping: 20,
+        mass: 0.5,
+      });
+    }
   });
+
+  return () => unsubscribe();
+}, [planeX, stopTriggerPosition, cloudStopPosition, cloudWidth, gap, cloudX]);
+
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
