@@ -11,11 +11,11 @@ import { useEffect, useRef, useState } from "react";
 import Plane from "../../public/assets/videos/plane.png";
 import Aviation from "../../public/assets/videos/Aviation.jpeg";
 
-export default function FirstAnimation() {
+export default function SecondAnimation() {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"], // sticky effect scroll range
+    offset: ["start start", "end end"], // full scroll range
   });
 
   const [windowWidth, setWindowWidth] = useState<number>(0);
@@ -30,8 +30,9 @@ export default function FirstAnimation() {
       const width = window.innerWidth;
       setWindowWidth(width);
 
-      const initialPlaneX = -planeWidth;
-      const initialCloudX = initialPlaneX - cloudWidth - gap;
+      // set starting X positions off-screen right
+      const initialPlaneX = width + planeWidth * 3;
+      const initialCloudX = initialPlaneX + gap;
       cloudX.set(initialCloudX);
     };
 
@@ -40,20 +41,20 @@ export default function FirstAnimation() {
     return () => window.removeEventListener("resize", updateWindowWidth);
   }, [cloudX]);
 
+  // Move plane from far right to far left
   const planeX = useTransform(
     scrollYProgress,
     [0, 1],
-    [-planeWidth, windowWidth + planeWidth * 3]
+    [windowWidth + planeWidth * 3, -planeWidth * 4]
   );
 
   useEffect(() => {
-    const stopTriggerPosition = windowWidth / 2 + planeWidth / 2;
     const cloudStopPosition = windowWidth / 2 - cloudWidth / 2;
 
     const unsubscribe = planeX.on("change", (latestPlaneX) => {
-      const followX = latestPlaneX - cloudWidth - gap;
+      const followX = latestPlaneX + planeWidth + gap;
 
-      if (latestPlaneX < stopTriggerPosition) {
+      if (followX > cloudStopPosition) {
         cloudX.set(followX);
       } else {
         animate(cloudX, cloudStopPosition, {
@@ -69,11 +70,8 @@ export default function FirstAnimation() {
   }, [planeX, windowWidth]);
 
   return (
-    <>
-    <div className="bg-blue-300">
-      {/* Scrollable wrapper (controls scroll range) */}
-      <div className="h-[300vh] relative" ref={containerRef}>
-        {/* Sticky Section */}
+    <div className="bg-blue-400">
+      <div className="h-[400vh] relative" ref={containerRef}>
         <div className="sticky top-0 h-screen w-screen overflow-hidden flex items-center">
           {/* Cloud */}
           <motion.div
@@ -88,10 +86,7 @@ export default function FirstAnimation() {
             }}
             className="flex items-center justify-center"
           >
-            <div
-              id="cloud-clip-path"
-              className="relative w-[320px] h-[320px] lg:w-full lg:h-full"
-            >
+            <div id="cloud-clip-path" className="relative w-[320px] h-[320px] lg:w-full lg:h-full">
               <Image
                 src={Aviation}
                 alt="Aviation background"
@@ -124,14 +119,12 @@ export default function FirstAnimation() {
             <Image
               src={Plane}
               alt="Flying plane"
-              className="w-[400px] h-auto"
+              className="w-[400px] h-auto -scale-x-100"
               priority
             />
           </motion.div>
         </div>
       </div>
     </div>
-
-    </>
   );
 }
