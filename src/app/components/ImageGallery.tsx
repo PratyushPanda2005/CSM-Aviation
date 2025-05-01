@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import PlaneImg from "../../../public/assets/images/pngwing.com.png";
@@ -43,7 +44,7 @@ const ImageGallery: React.FC = () => {
   const animateSwap = (clickedThumb: "left" | "right") => {
     if (isAnimating) return;
     setIsAnimating(true);
-
+  
     const clickedThumbRef = clickedThumb === "left" ? leftThumbRef : rightThumbRef;
     const oppositeThumbRef = clickedThumb === "left" ? rightThumbRef : leftThumbRef;
     const clickedImageRef = clickedThumb === "left" ? leftImageRef : rightImageRef;
@@ -51,14 +52,14 @@ const ImageGallery: React.FC = () => {
     const targetIndex = clickedThumb === "left" 
       ? (currentIndex + 1) % images.length 
       : (currentIndex - 1 + images.length) % images.length;
-
+  
     // Get positions
     const thumbRect = clickedThumbRef.current?.getBoundingClientRect();
     const oppositeRect = oppositeThumbRef.current?.getBoundingClientRect();
     const centerRect = mainImageRef.current?.getBoundingClientRect();
     
     if (!thumbRect || !oppositeRect || !centerRect) return;
-
+  
     // Create clones
     const thumbClone = clickedImageRef.current?.cloneNode(true) as HTMLElement;
     const centerClone = mainImageRef.current?.cloneNode(true) as HTMLElement;
@@ -67,11 +68,11 @@ const ImageGallery: React.FC = () => {
       : leftImageRef.current?.cloneNode(true) as HTMLElement;
     
     if (!thumbClone || !centerClone || !oppositeClone) return;
-
+  
     document.body.appendChild(thumbClone);
     document.body.appendChild(centerClone);
     document.body.appendChild(oppositeClone);
-
+  
     // Position clones
     gsap.set([thumbClone, centerClone, oppositeClone], {
       position: "fixed",
@@ -79,7 +80,7 @@ const ImageGallery: React.FC = () => {
       pointerEvents: "none",
       transformOrigin: "center center"
     });
-
+  
     gsap.set(thumbClone, {
       left: thumbRect.left,
       top: thumbRect.top,
@@ -87,7 +88,7 @@ const ImageGallery: React.FC = () => {
       height: thumbRect.height,
       scale: 1
     });
-
+  
     gsap.set(centerClone, {
       left: centerRect.left,
       top: centerRect.top,
@@ -95,7 +96,7 @@ const ImageGallery: React.FC = () => {
       height: centerRect.height,
       scale: 1
     });
-
+  
     gsap.set(oppositeClone, {
       left: oppositeRect.left,
       top: oppositeRect.top,
@@ -104,12 +105,13 @@ const ImageGallery: React.FC = () => {
       scale: 1
     });
 
+  
     // Hide originals during animation
     gsap.set([mainImageRef.current, leftImageRef.current, rightImageRef.current], {
       opacity: 0,
       duration: 0
     });
-
+  
     // Create timeline
     const tl = gsap.timeline({
       onComplete: () => {
@@ -120,60 +122,100 @@ const ImageGallery: React.FC = () => {
         thumbClone.remove();
         centerClone.remove();
         oppositeClone.remove();
+        
         setCurrentIndex(targetIndex);
         setIsAnimating(false);
       }
     });
-
-    // 1. Scale up clicked thumbnail
+  
+    const xDirection = clickedThumb === "left" ? 1 : -1;
+    const totalDuration = 1.2; // Total animation duration in seconds
+  
+    // 1. Initial scale up of clicked thumbnail
     tl.to(thumbClone, {
-      scale: 1.2,
-      duration: 0.2,
+      scale: 1.1,
+      duration: 0.15,
       ease: "power2.out"
     });
-
-    // 2. Move opposite thumbnail down
-    tl.to(oppositeClone, {
-      y: 100, // Move down by 100px
-   
-      opacity: 0.5,
-      duration: 0.3,
-      ease: "power2.out"
-    }, "<0.1"); // Slightly overlap with scale animation
-
-
-
-    tl.to(thumbClone, {
-      left: centerRect.left,
-      top: centerRect.top,
-      width: centerRect.width,
-      height: centerRect.height,
-      scale: 1,
-      duration: 0.5,
-      ease: "power2.inOut"
-    });
-
-   
-    tl.to(centerClone, {
-      left: oppositeRect.left,
-      top: oppositeRect.top,
-      width: oppositeRect.width,
-      height: oppositeRect.height,
-      duration: 0.5,
-      ease: "power2.inOut"
-    }, "<");
-    
-    tl.to(oppositeClone, {
-      y: 0,
+  
+    // 2. Create text animation (fade out current text)
+    tl.to(titleRef.current, {
       opacity: 0,
-      duration: 0.2,
+      y: -20,
+      duration: totalDuration * 0.3,
+      ease: "power2.out"
+    });
+  
+    // 3. Main movement animations
+    tl.add([
+      // Clicked thumbnail moves to center
+      gsap.to(thumbClone, {
+        left: centerRect.left,
+        top: centerRect.top,
+        width: centerRect.width,
+        height: centerRect.height,
+        scale: 1,
+        duration: totalDuration,
+        ease: "power2.inOut"
+      }),
+      
+      // Current center image moves to opposite position
+      gsap.to(centerClone, {
+        left: oppositeRect.left,
+        top: oppositeRect.top,
+        width: oppositeRect.width,
+        height: oppositeRect.height,
+        duration: totalDuration,
+        ease: "power2.inOut"
+      }),
+      
+      // Opposite thumbnail exits diagonally
+      gsap.to(oppositeClone, {
+        motionPath: {
+            path: [
+                {x: 0, y: 0},
+                {x: xDirection * 100, y: 50},
+                {x: xDirection * 200, y: 100}
+            ],
+            curviness: 1.5
+        },
+        x: xDirection * 200,
+        y: 200,
+        rotation: xDirection * 20,
+        opacity: 0,
+        duration: totalDuration * 0.8,
+        ease: "power2.in"
+      }),
+
+
+      
+    ], "<");
+  
+    
+    // 4. Change text when center clone is halfway
+    tl.call(() => {
+      if (titleRef.current) {
+        titleRef.current.textContent = images[targetIndex].title;
+      }
+    }, [], totalDuration * 0.5);
+  
+    // 5. Fade in new text
+    tl.to(titleRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: totalDuration * 0.5,
       ease: "power2.in"
-    }, ">0.3"); 
-};
+    }, `-=${totalDuration * 0.2}`);
+  
+  
+  
+  };
+
 
   const handleClick = (direction: "left" | "right") => {
     animateSwap(direction);
   };
+  
   useEffect(() => {
     images.forEach(img => {
       const preloadLink = document.createElement('link');
@@ -206,6 +248,7 @@ const ImageGallery: React.FC = () => {
             priority
           />
         </div>
+        <button className="bg-blue-500 text-white p-4 cursor-pointer rounded-3xl font-semibold">Request Quote</button>
       </div>
 
       {/* Bottom Thumbnails */}
@@ -225,7 +268,7 @@ const ImageGallery: React.FC = () => {
               src={leftThumb.src}
               alt={leftThumb.alt}
               fill
-              className="object-contain hover:scale-105 transition-transform duration-300"
+              className="object-contain hover:scale-110 transition-transform duration-300"
               priority
             />
           </div>
@@ -246,7 +289,7 @@ const ImageGallery: React.FC = () => {
               src={rightThumb.src}
               alt={rightThumb.alt}
               fill
-              className="object-contain hover:scale-105"
+              className="object-contain hover:scale-110 transition-transform duration-300"
               priority
             />
           </div>
