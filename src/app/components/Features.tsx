@@ -7,22 +7,22 @@ const Features = () => {
         {
             title: "Miami Private Aircraft Services",
             subtext: "We provide premium air transportation solutions in Miami, with a focus on exceptional service delivery and customer satisfaction. Our experienced team ensures every flight meets the highest standards of luxury travel.",
-            videopath: "/assets/pdvideos/miamisec.mp4"
+            videopath: "/assets/pdvideos/medium.mp4"
         },
         {
             title: "New York Premium Aviation Services",
             subtext: "We deliver exceptional air travel solutions throughout the New York region, with our expert team ensuring superior service for every flight.",
-            videopath: "/assets/pdvideos/newyork.mp4"
+            videopath: "/assets/pdvideos/medium.mp4"
         },
         {
             title: "Los Angeles Premium Aviation",
             subtext: "We specialize in providing superior air transportation solutions throughout the Los Angeles region. Our professional team delivers exceptional travel experiences tailored to each client's needs.",
-            videopath: "/assets/pdvideos/newyork.mp4"
+            videopath: "/assets/pdvideos/medium.mp4"
         },
         {
             title: "Las Vegas Premium Air Services",
             subtext: "We provide exceptional private aviation solutions in Las Vegas, delivering superior travel experiences through our dedicated team of professionals.",
-            videopath: "/assets/pdvideos/lasvegas.mp4"
+            videopath: "/assets/pdvideos/medium.mp4"
         },
     ]
   return (
