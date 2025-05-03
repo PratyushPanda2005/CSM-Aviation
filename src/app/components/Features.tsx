@@ -57,27 +57,3 @@ const Features = () => {
 export default Features;
 
 
-{/*
-     <div className="flex flex-col">
-        <div>
-          <h1 className="text-white font-[700]">Miami Private Aircraft Services</h1>
-          <p className="text-white/50 max-w-md ">
-            We provide premium air transportation solutions in Miami, with a
-            focus on exceptional service delivery and customer satisfaction. Our
-            experienced team ensures every flight meets the highest standards of
-            luxury travel.
-          </p>
-        </div>
-        <div className="w-full flex justify-center pt-20">
-          <div className="w-[64vw] h-[64vh]">
-            <video
-              src="/assets/pdvideos/miamisec.mp4"
-              className="h-full w-full"
-              autoPlay
-              muted
-              loop
-            />
-          </div>
-        </div>
-        </div>
-    */}
