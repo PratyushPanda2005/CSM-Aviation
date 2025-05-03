@@ -37,7 +37,7 @@ const Features = () => {
         </p>
       </div>
       <div className="w-full flex justify-center pt-20">
-        <div className="lg:h-[65vh]">
+        <div className="lg:h-[65vh] border">
           <video
             src={item.videopath}
             className="h-full w-full"

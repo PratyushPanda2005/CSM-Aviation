@@ -10,9 +10,9 @@ export default function Home() {
  
   return (
     <>
-    <FirstAnimation/>
+    {/* <FirstAnimation/>
     <SecondAnimation/>
-    <FirstAnimation/>
+    <FirstAnimation/> */}
     {/* <ImageGallery/> */}
     <PopularDestination/>
     <Features/>
