@@ -2,8 +2,8 @@
 
 import Features from "./components/Features";
 import PopularDestination from "./components/PopularDestination";
-import FirstAnimation from "./FirstAnimation";
-import SecondAnimation from "./SecondAnimation";
+// import FirstAnimation from "./FirstAnimation";
+// import SecondAnimation from "./SecondAnimation";
 
 
 export default function Home() {
