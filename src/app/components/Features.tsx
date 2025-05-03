@@ -17,7 +17,7 @@ const Features = () => {
         {
             title: "Los Angeles Premium Aviation",
             subtext: "We specialize in providing superior air transportation solutions throughout the Los Angeles region. Our professional team delivers exceptional travel experiences tailored to each client's needs.",
-            videopath: "/assets/pdvideos/lasvegas.mp4"
+            videopath: "/assets/pdvideos/losangeles.mp4"
         },
         {
             title: "Las Vegas Premium Air Services",
