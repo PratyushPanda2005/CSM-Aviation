@@ -1,6 +1,7 @@
 "use client";
 
-import ImageGallery from "./components/ImageGallery";
+import Features from "./components/Features";
+import PopularDestination from "./components/PopularDestination";
 import FirstAnimation from "./FirstAnimation";
 import SecondAnimation from "./SecondAnimation";
 
@@ -12,7 +13,9 @@ export default function Home() {
     <FirstAnimation/>
     <SecondAnimation/>
     <FirstAnimation/>
-    <ImageGallery/>
+    {/* <ImageGallery/> */}
+    <PopularDestination/>
+    <Features/>
     </>
   );
 }

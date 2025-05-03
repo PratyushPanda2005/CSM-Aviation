@@ -72,6 +72,8 @@ const ImageGallery: React.FC = () => {
     document.body.appendChild(thumbClone);
     document.body.appendChild(centerClone);
     document.body.appendChild(oppositeClone);
+    
+
   
     // Position clones
     gsap.set([thumbClone, centerClone, oppositeClone], {
@@ -150,6 +152,7 @@ const ImageGallery: React.FC = () => {
     tl.add([
       // Clicked thumbnail moves to center
       gsap.to(thumbClone, {
+      
         left: centerRect.left,
         top: centerRect.top,
         width: centerRect.width,
@@ -161,6 +164,7 @@ const ImageGallery: React.FC = () => {
       
       // Current center image moves to opposite position
       gsap.to(centerClone, {
+        
         left: oppositeRect.left,
         top: oppositeRect.top,
         width: oppositeRect.width,
@@ -206,7 +210,6 @@ const ImageGallery: React.FC = () => {
       duration: totalDuration * 0.5,
       ease: "power2.in"
     }, `-=${totalDuration * 0.2}`);
-  
   
   
   };
